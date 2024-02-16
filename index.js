@@ -128,29 +128,6 @@ io.on("connection", (socket) => {
       socket.to(receiver.userID).emit("offer", offer, socket.id);
     }
 
-        // Send Firebase Push Notification
-        const message = {
-          data: {
-            title: "New Message",
-            // body: `From ${sender}`,
-            body: "Message",
-          },
-          // to: `/topics/${sender}`,
-          // priority: "high",
-          notification: {
-            title: "Appel..",
-            body: `From ${sender}`,
-          },
-          token: user.fcmToken,
-        };
-    
-        try {
-          const response = await admin.messaging().send(message);
-          console.log("Successfully sent notification :", response);
-        } catch (error) {
-          console.error("Error sending notification :", error);
-        }
-
   });
 
   socket.on("answer", (answer, to) => {

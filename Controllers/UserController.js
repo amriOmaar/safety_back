@@ -37,60 +37,57 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// const loginUser = asyncHandler(async (req,res) => {
-//   const { username, password } = req.body;
-  
-//   try{
-//     const user = await User.findOne({username});
-//     if(user && (await bcrypt.compare(password, user.password))){
-//       res.status(200).json(user);
-//     }
-//     else{
-//       res.status(401);
-//       throw new Error(" Invalid username or password");
-//     }
-//   }catch(error){
-//     res.status(400).json({
-//      message: error.message
-//     });
-
-//    }
-
-// });
-
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req,res) => {
   const { username, password } = req.body;
-
-  try {
-    const user = await User.findOne({ username });
-    if (user && (await bcrypt.compare(password, user.password))) {
-      // Generate JWT token
-      const token = jwt.sign(
-        { 
-          userId: user._id, 
-          username: user.username ,
-          nom: user.nom,
-          prenom: user.prenom,
-          service: user.service,
-        },
-        "45122003659021",
-        { expiresIn: '4d' } 
-      );
-
-      res.status(200).json({ _id: user._id, username: user.username, token }); // Include user ID in the response
-    } else {
-      res.status(401);
-      throw new Error('Invalid username or password');
+  
+  try{
+    const user = await User.findOne({username});
+    if(user && (await bcrypt.compare(password, user.password))){
+      res.status(200).json(user);
     }
-  } catch (error) {
+    else{
+      res.status(401);
+      throw new Error(" Invalid username or password");
+    }
+  }catch(error){
     res.status(400).json({
-      message: error.message,
+     message: error.message
     });
-  }
+
+   }
+
 });
 
+// const loginUser = asyncHandler(async (req, res) => {
+//   const { username, password } = req.body;
 
+//   try {
+//     const user = await User.findOne({ username });
+//     if (user && (await bcrypt.compare(password, user.password))) {
+//       // Generate JWT token
+//       const token = jwt.sign(
+//         { 
+//           userId: user._id, 
+//           username: user.username ,
+//           nom: user.nom,
+//           prenom: user.prenom,
+//           service: user.service,
+//         },
+//         "45122003659021",
+//         { expiresIn: '4d' } 
+//       );
 
+//       res.status(200).json({ _id: user._id, username: user.username, token }); // Include user ID in the response
+//     } else {
+//       res.status(401);
+//       throw new Error('Invalid username or password');
+//     }
+//   } catch (error) {
+//     res.status(400).json({
+//       message: error.message,
+//     });
+//   }
+// });
 
 
 const getUsers = asyncHandler(async (req, res) => {
@@ -124,7 +121,7 @@ const updateToken = asyncHandler(async (req, res)=>{
 }
 )
 
-const getDetailsUser = asyncHandler(async (req, res) => {
+const getDetailsUser = (async (req, res) => {
   const userId = req.params.userId;
 
   try {
